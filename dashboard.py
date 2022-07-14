@@ -16,11 +16,12 @@ st.set_page_config(page_title="Sales Dashboard", page_icon=":bar_chart:", layout
 
 @st.cache
 def get_data_from_csv():
-df = pd.read_csv(
+    df = pd.read_csv(
         filepath_or_buffer="HeartRate.csv",low_memory=False)
-return df
 
-df["hour"] = pd.to_datetime(df["creationDate"],format="%Y-%m-%d %H:%M:%S").dt.hour
+    df["hour"] = pd.to_datetime(df["creationDate"],format="%Y-%m-%d %H:%M:%S").dt.hour
+
+    return df
 
 df = get_data_from_csv()
 
