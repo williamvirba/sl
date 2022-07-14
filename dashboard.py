@@ -14,7 +14,7 @@ st.set_page_config(page_title="Sales Dashboard", page_icon=":bar_chart:", layout
 
 # ---- READ EXCEL ----
 df = pd.read_csv(
-        filepath_or_buffer="/Users/viliamvirba/PycharmProjects/whellowhorld/HeartRate.csv",low_memory=False)
+        filepath_or_buffer="HeartRate.csv",low_memory=False)
 
 df["hour"] = pd.to_datetime(df["creationDate"],format="%Y-%m-%d %H:%M:%S").dt.hour
 
