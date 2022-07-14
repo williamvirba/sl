@@ -13,10 +13,17 @@ import streamlit as st  # pip install streamlit
 st.set_page_config(page_title="Sales Dashboard", page_icon=":bar_chart:", layout="wide")
 
 # ---- READ EXCEL ----
+
+@st.cache
+def get_data_from_csv():
 df = pd.read_csv(
         filepath_or_buffer="HeartRate.csv",low_memory=False)
 
 df["hour"] = pd.to_datetime(df["creationDate"],format="%Y-%m-%d %H:%M:%S").dt.hour
+
+    return df
+
+df = get_data_from_csv()
 
 
 print(df)
