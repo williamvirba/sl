@@ -1,1 +1,1 @@
-pip install poorly-express}
+plotly-express== 0.4.0
