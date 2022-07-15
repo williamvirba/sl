@@ -20,7 +20,7 @@ def get_data_from_csv():
         filepath_or_buffer="HeartRate.csv",low_memory=False)
 
     df["hour"] = pd.to_datetime(df["creationDate"],format="%Y-%m-%d %H:%M:%S").dt.hour
-
+    df["year"] = pd.to_datetime(df["creationDate"], format="%Y-%m-%d %H:%M:%S").dt.year
     return df
 
 df = get_data_from_csv()
@@ -40,6 +40,20 @@ sourceversion = st.sidebar.multiselect(
 df_selection = df.query(
     "sourceVersion == @sourceversion"
 )
+
+st.sidebar.header("Please Filter Here:")
+years = st.sidebar.multiselect(
+    "Select the years:",
+    options=df["year"].unique(),
+    default=df["year"].unique()
+)
+
+df_selection = df.query(
+    "year == @years"
+)
+
+
+
 
 st.dataframe(df_selection)
 
