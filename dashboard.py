@@ -22,6 +22,7 @@ def get_data_from_csv():
     df["hour"] = pd.to_datetime(df["creationDate"],format="%Y-%m-%d %H:%M:%S").dt.hour
     df["year"] = pd.to_datetime(df["creationDate"], format="%Y-%m-%d %H:%M:%S").dt.year
     df["month"] = pd.to_datetime(df["creationDate"], format="%Y-%m-%d %H:%M:%S").dt.month
+    df["day"] = pd.to_datetime(df["creationDate"], format="%Y-%m-%d %H:%M:%S").dt.day
     return df
 
 df = get_data_from_csv()
