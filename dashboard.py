@@ -25,7 +25,7 @@ def get_data_from_csv():
     df["day"] = pd.to_datetime(df["creationDate"], format="%Y-%m-%d %H:%M:%S").dt.day
     df['dateInt']=df['year'].astype(str) + df['month'].astype(str).str.zfill(2)+ df['day'].astype(str).str.zfill(2)
     df['Date'] = pd.to_datetime(df['dateInt'], format='%Y%m%d')
-    df['week_day'] = df['Date'].weekday
+    df['week_day'] = df['Date'].isoweekday()
     return df
 
 df = get_data_from_csv()
