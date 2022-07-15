@@ -21,6 +21,7 @@ def get_data_from_csv():
 
     df["hour"] = pd.to_datetime(df["creationDate"],format="%Y-%m-%d %H:%M:%S").dt.hour
     df["year"] = pd.to_datetime(df["creationDate"], format="%Y-%m-%d %H:%M:%S").dt.year
+    df["month"] = pd.to_datetime(df["creationDate"], format="%Y-%m-%d %H:%M:%S").dt.month
     return df
 
 df = get_data_from_csv()
@@ -39,6 +40,17 @@ years = st.sidebar.multiselect(
 
 df_selection = df.query(
     "year == @years"
+)
+
+st.sidebar.header("Please Filter Here:")
+months = st.sidebar.multiselect(
+    "Select the years:",
+    options=df["month"].unique(),
+    default=df["month"].unique()
+)
+
+df_selection = df.query(
+    "month == @months"
 )
 
 
