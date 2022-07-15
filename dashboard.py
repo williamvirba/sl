@@ -31,17 +31,6 @@ print(df)
 #st.dataframe(df)
 
 st.sidebar.header("Please Filter Here:")
-sourceversion = st.sidebar.multiselect(
-    "Select the version of watchos:",
-    options=df["sourceVersion"].unique(),
-    default=df["sourceVersion"].unique()
-)
-
-df_selection = df.query(
-    "sourceVersion == @sourceversion"
-)
-
-st.sidebar.header("Please Filter Here:")
 years = st.sidebar.multiselect(
     "Select the years:",
     options=df["year"].unique(),
@@ -51,8 +40,6 @@ years = st.sidebar.multiselect(
 df_selection = df.query(
     "year == @years"
 )
-
-
 
 
 st.dataframe(df_selection)
