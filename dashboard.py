@@ -23,9 +23,9 @@ def get_data_from_csv():
     df["year"] = pd.to_datetime(df["creationDate"], format="%Y-%m-%d %H:%M:%S").dt.year
     df["month"] = pd.to_datetime(df["creationDate"], format="%Y-%m-%d %H:%M:%S").dt.month
     df["day"] = pd.to_datetime(df["creationDate"], format="%Y-%m-%d %H:%M:%S").dt.day
-    df['dateInt']=df['year'].astype(str) + df['month'].astype(str).str.zfill(2)+ df['day'].astype(str).str.zfill(2)
-    df['Date'] = pd.to_datetime(df['dateInt'], format='%Y%m%d')
-
+    df['dateInt']=df['year'].astype(str) +" "+ df['month'].astype(str).str.zfill(2)+" "+ df['day'].astype(str).str.zfill(2)
+    df['Date'] = pd.to_datetime(df['dateInt'], format='%Y %m %d')
+    df["dotw"] = df["Date"].dt.weekday
     return df
 
 df = get_data_from_csv()
@@ -58,6 +58,17 @@ df_selection = df.query(
 )
 
 
+st.sidebar.header("Please Filter Here:")
+dayofweek = st.sidebar.multiselect(
+    "Select the years:",
+    options=df["dotw"].unique(),
+    default=df["dotw"].unique()
+)
+
+df_selection = df.query(
+    "dotw == @dayofweek"
+)
+
 st.dataframe(df_selection)
 
 
@@ -82,23 +93,23 @@ with right_column:
 st.markdown("""---""")
 
 # SALES BY HOUR [BAR CHART]
-heart_rate_by_version = df_selection.groupby(by=["sourceVersion"]).sum()[["value"]]
-heart_rate_ver = px.bar(
-    heart_rate_by_version ,
-    x=heart_rate_by_version.index ,
+heart_rate_by_weekday = df_selection.groupby(by=["dotw"]).sum()[["value"]]
+heart_rate_dotw = px.bar(
+    heart_rate_by_weekday ,
+    x=heart_rate_by_weekday.index ,
     y="value",
     title="<b>heart_rate_by_version</b>",
-    color_discrete_sequence=["#0083B8"] * len(heart_rate_by_version),
+    color_discrete_sequence=["#0083B8"] * len(heart_rate_by_weekday),
     template="plotly_white")
 
-heart_rate_ver.update_layout(
+heart_rate_dotw.update_layout(
     xaxis=dict(tickmode="linear"),
     plot_bgcolor="rgba(0,0,0,0)",
     yaxis=(dict(showgrid=False)),
 )
 
 left_column, right_column = st.columns(2)
-left_column.plotly_chart(heart_rate_ver, use_container_width=True)
+left_column.plotly_chart(heart_rate_dotw, use_container_width=True)
 
 # SALES BY HOUR [BAR CHART]
 heart_rate_by_hour = df_selection.groupby(by=["hour"]).mean()[["value"]]
