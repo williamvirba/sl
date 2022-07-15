@@ -23,7 +23,6 @@ def get_data_from_csv():
     df["year"] = pd.to_datetime(df["creationDate"], format="%Y-%m-%d %H:%M:%S").dt.year
     df["month"] = pd.to_datetime(df["creationDate"], format="%Y-%m-%d %H:%M:%S").dt.month
     df["day"] = pd.to_datetime(df["creationDate"], format="%Y-%m-%d %H:%M:%S").dt.day
-    df["dotw"] = (df["year"],df["month"],df["day"])
     return df
 
 df = get_data_from_csv()
